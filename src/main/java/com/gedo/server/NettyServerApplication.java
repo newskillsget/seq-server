@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * Created by Gedo on 2019/4/1.
  */
-@SpringBootApplication(exclude = MongoAutoConfiguration.class)
+@SpringBootApplication(scanBasePackages = "com.gedo.server",exclude = MongoAutoConfiguration.class)
 @ComponentScan(includeFilters = @ComponentScan.Filter(NettyHttpHandler.class))
 public class NettyServerApplication {
 

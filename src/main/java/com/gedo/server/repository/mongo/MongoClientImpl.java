@@ -19,6 +19,7 @@ import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.stream.Stream;
 /**
  * Created by Gedo on 2019/4/4.
  */
+@Component("MongoClientImpl")
 public class MongoClientImpl implements MongoDBClient {
 
     private final Logger logger = LoggerFactory.getLogger(MongoClientImpl.class);

@@ -8,7 +8,10 @@ import com.gedo.server.repository.mongo.MongoDBClient;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -17,6 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by Gedo on 2019/4/4.
  */
+@Service
 public class SeqService {
 
     private static final Logger log = LoggerFactory.getLogger(SeqService.class);
@@ -24,16 +28,19 @@ public class SeqService {
     public static Map<String, AtomicLong[]> APP_ROOMID = new ConcurrentHashMap<>();
     //<appId,<roomId<LastestSeq,maxSeq>>>
     public static Map<String, ConcurrentHashMap<String, AtomicLong[]>> APP_ROOMID_SEQ = new ConcurrentHashMap<>();
-    private MongoDBClient mongoDBClient = new MongoClientImpl();
     private ReentrantLock lock = new ReentrantLock();
 
+    @Autowired
+    private MongoDBClient mongoDBClient;
+
+    @PostConstruct
     public void initIds() {
         mongoDBClient.initAllIds();
     }
 
-    private Long getNextNum(SeqReq msg) {
+    public Long getNextNum(SeqReq msg) {
         Long nextNum;
-        if (0 == msg.getRoomId()) {
+        if (null == msg.getRoomId()) {
             nextNum = getRoomIdByAppId(msg);
         } else {
             nextNum = getSeqByRoomId(msg);
