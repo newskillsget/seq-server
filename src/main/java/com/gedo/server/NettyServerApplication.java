@@ -3,13 +3,14 @@ package com.gedo.server;
 import com.gedo.server.business.annotation.NettyHttpHandler;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Created by Gedo on 2019/4/1.
  */
-@SpringBootApplication()
+@SpringBootApplication(exclude = MongoAutoConfiguration.class)
 @ComponentScan(includeFilters = @ComponentScan.Filter(NettyHttpHandler.class))
 public class NettyServerApplication {
 
