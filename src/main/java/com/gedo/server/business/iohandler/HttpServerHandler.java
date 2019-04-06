@@ -44,6 +44,8 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpServerHandler.class);
 
+    private ApplicationContext applicationContext;
+
     private HashMap<Path, IFunctionHandler> functionHandlerMap = Maps.newHashMap();
 
     private ExecutorService executor = Executors.newCachedThreadPool(runnable -> {
@@ -90,6 +92,11 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+        registeHandler();
+    }
+
+    private void registeHandler() {
         Map<String, Object> handlers = applicationContext.getBeansWithAnnotation(NettyHttpHandler.class);
         for (Map.Entry<String, Object> entry : handlers.entrySet()) {
             Object handler = entry.getValue();
@@ -100,6 +107,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             }
             functionHandlerMap.put(path, (IFunctionHandler) handler);
         }
+
     }
 
     private IFunctionHandler findFunctionHandler(NettyHttpRequest request) throws IllegalPathNotFoundException, IllegalMethodNotAllowedException {
