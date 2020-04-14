@@ -26,7 +26,7 @@ public class SeqService {
     private static final Logger log = LoggerFactory.getLogger(SeqService.class);
     //<appId,<LastestId,maxId>>
     public static Map<String, AtomicLong[]> APP_ROOMID = new ConcurrentHashMap<>();
-    //<appId,<roomId<LastestSeq,maxSeq>>>
+    //<appId,<roomId,<LastestSeq,maxSeq>>>
     public static Map<String, ConcurrentHashMap<String, AtomicLong[]>> APP_ROOMID_SEQ = new ConcurrentHashMap<>();
     private ReentrantLock lock = new ReentrantLock();
 
